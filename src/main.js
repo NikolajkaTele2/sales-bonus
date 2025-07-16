@@ -36,6 +36,7 @@ function analyzeSalesData(data, options) {
         || !Array.isArray(data.customers) 
         || !Array.isArray(data.purchase_records) 
         || data.sellers.length === 0
+        || data.purchase_records === 0
     ) {
         throw new Error('пустой массив');
     }
