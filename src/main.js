@@ -17,10 +17,10 @@ function calculateSimpleRevenue(purchase, _product) {
  * @returns {number}
  */
 function calculateBonusByProfit(index, total, seller) {
-    if (index === 0) return 0.15*seller;      
-    if (index === 1 || index === 2) return 0.10*seller;  
+    if (index === 0) return 150;      
+    if (index === 1 || index === 2) return 100;  
     if (index === total-1) return 0;     
-    return 0.05*seller;   
+    return 50;   
 }
 
 /**
@@ -89,7 +89,7 @@ function analyzeSalesData(data, options) {
     sellerStats.sort((a, b) => b.profit - a.profit);
 
     sellerStats.forEach((seller, index) => {
-        seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller.profit)
+        seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller) * seller.profit / 1000
         seller.top_products = Object.entries(seller.products_sold).sort((a, b) => b[1] - a[1]).slice(0, 10);
     });
     console.log(sellerStats)
