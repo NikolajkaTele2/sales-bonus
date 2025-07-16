@@ -5,12 +5,8 @@
  * @returns {number}
  */
 function calculateSimpleRevenue(purchase, _product) {
-//    const { discount, sale_price, quantity } = purchase;
-//    const discountedPrice = sale_price * (1 - discount / 100);
-//    const profit = (discountedPrice - _product.purchase_price) * quantity;
     const discount =  1 - (purchase.discount / 100)
-    
-   return purchase.sale_price * purchase.quantity * discount 
+    return purchase.sale_price * purchase.quantity * discount 
 }
 
 /**
@@ -21,9 +17,9 @@ function calculateSimpleRevenue(purchase, _product) {
  * @returns {number}
  */
 function calculateBonusByProfit(index, total, seller) {
-    if (index === 1) return 0.15;      
-    if (index === 2 || index === 3) return 0.10;  
-    if (index === total) return 0;     
+    if (index === 0) return 0.15;      
+    if (index === 1 || index === 2) return 0.10;  
+    if (index === total-1) return 0;     
     return 0.05;   
 }
 
@@ -56,10 +52,7 @@ function analyzeSalesData(data, options) {
         revenue: 0,
         profit: 0,
         sales_count: 0,
-        products_sold: [{
-            sku: "",
-            quantity: 0
-        }]
+        products_sold: {}
     })); 
 
     const productIndex = Object.fromEntries(
@@ -93,6 +86,23 @@ function analyzeSalesData(data, options) {
             
         });
     });
+    sellerStats.sort((a, b) => b.profit - a.profit);
+
+    sellerStats.forEach((seller, index) => {
+        seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller) * seller.profit
+        seller.top_products = Object.entries(seller.products_sold).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    });
     console.log(sellerStats)
+    return sellerStats.map(seller => ({
+        seller_id: seller.seller_id,
+        name: seller.name,
+        revenue: +seller.revenue.toFixed(2),
+        profit: +seller.profit.toFixed(2),
+        sales_count: seller.sales_count,
+        top_products: seller.top_products,
+        bonus: +seller.bonus.toFixed(2)
+}));
+    
+
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
