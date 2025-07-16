@@ -36,7 +36,7 @@ function analyzeSalesData(data, options) {
         || !Array.isArray(data.customers) 
         || !Array.isArray(data.purchase_records) 
         || data.sellers.length === 0
-        || data.purchase_records === 0
+        || data.purchase_records.length === 0
     ) {
         throw new Error('пустой массив');
     }
@@ -53,7 +53,7 @@ function analyzeSalesData(data, options) {
         revenue: 0,
         profit: 0,
         sales_count: 0,
-        products_sold: {}
+        products_sold: []
     })); 
 
     const productIndex = Object.fromEntries(
