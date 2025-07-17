@@ -53,7 +53,7 @@ function analyzeSalesData(data, options) {
         revenue: 0,
         profit: 0,
         sales_count: 0,
-        products_sold: []
+        products_sold: {}
     })); 
 
     const productIndex = Object.fromEntries(
