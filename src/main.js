@@ -91,7 +91,7 @@ function analyzeSalesData(data, options) {
 
     sellerStats.forEach((seller, index) => {
         seller.bonus = calculateBonusByProfit(index, sellerStats.length, seller) * seller.profit / 1000
-        seller.top_products = Object.entries(seller.products_sold).sort((a, b) => b[1] - a[1]).slice(0, 10);
+        seller.top_products = Object.entries(seller.products_sold).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([sku, quantity]) => [sku, quantity]);
     });
     console.log(sellerStats)
     return sellerStats.map(seller => ({
